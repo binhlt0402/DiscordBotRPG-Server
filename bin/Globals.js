@@ -1,7 +1,7 @@
 const conn = require("../conf/mysql.js");
 
 let rarityChances = {
-    commun: 40 / 100,
+    commun: 45 / 100,
     rare: 7 / 100,
     superieur: 6 / 100,
     epique: 0.9 / 100,
@@ -13,9 +13,9 @@ let collectChances = {
     commun: 50 / 100,
     rare: 14 / 100,
     superieur: 9 / 100,
-    epique: 1.25 / 100,
-    legendaire: 0.25 / 100,
-    mythic: 0.025 / 100
+    epique: 1.2 / 100,
+    legendaire: 0.2 / 100,
+    mythic: 0.02 / 100
 }
 
 /**
@@ -25,7 +25,7 @@ let collectChances = {
  */
 var Globals = {
     "maintenance_message": null,
-    "maxLevel": null,
+    "maxLevel": 30,
     "maxStatsId": null,
     "statsIds": null,
     "monstersIds": null,
@@ -33,27 +33,27 @@ var Globals = {
     "equipableCorresponds": null,
     "basicWaitTimeBeforeFight": 60,
     "basicWaitTimeAfterTravel": 120,
-    "basicWaitTimeBeforePvPFight": 900,
-    "basicWaitTimeCollectTravel": 25,
+    "basicWaitTimeBeforePvPFight": 600,
+    "basicWaitTimeCollectTravel": 30,
     "basicWaitTimeCraft": 40,
     "collectTriesOnce": 10,
-    "admins": ["241564725870198785", "285789367954440194", "228787710607753216", "403229406585421834", "245858206021058560"],
+    "admins": ["163851920895639552", "249428167733936128"],
     "activated": true,
     "mDifficulties": [{
         name: "Weak",
-        value: 0.8,
-    },
-    {
-        name: "Young",
         value: 0.9,
     },
     {
-        name: "Adult",
+        name: "Young",
         value: 1,
     },
     {
+        name: "Adult",
+        value: 1.1,
+    },
+    {
         name: "Alpha",
-        value: 1.2,
+        value: 1.3,
     }
     ],
     "equipsPossible": null,
@@ -61,15 +61,15 @@ var Globals = {
     "collectChances": collectChances,
     "areasTypes": null,
     "chanceToFightTheMonsterYouWant": 0.63,
-    "resetStatsPricePerLevel": 60,
+    "resetStatsPricePerLevel": 150,
     "maxConsecutiveStuns": 1,
     "guilds": {
         "maxLevel": 10,
-        "basePriceLevel": 20000,
-        "multBasePricePerLevel": 5,
-        "baseMembers": 5,
-        "membersPerLevels": 5,
-        "maxApplies": 5,
+        "basePriceLevel": 50000,
+        "multBasePricePerLevel": 3,
+        "baseMembers": 3,
+        "membersPerLevels": 3,
+        "maxApplies": 3,
     },
     "weather": {
         "minBeforeChange": 10,

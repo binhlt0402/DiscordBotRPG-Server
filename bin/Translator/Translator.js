@@ -16,19 +16,19 @@ class Translator {
      */
     static getString(lang, type, name, args, returnNull = false) {
         if (!this.translations[lang]) {
-            lang = "en";
+            lang = "vi";
         }
         if (this.translations[lang][type] && this.translations[lang][type][name]) {
             return this.formatString(this.translations[lang][type][name], args, lang);
         }
-        if (lang != "en") {
-            return this.getString("en", type, name, args, returnNull);
+        if (lang != "vi") {
+            return this.getString("vi", type, name, args, returnNull);
         }
 
         return returnNull ? null : lang + " | " + type + " | " + name;
     }
 
-    static formatString(s, args = [], lang = "en") {
+    static formatString(s, args = [], lang = "vi") {
         let str = "",
             tempStr;
         let argsAlreadyPassed = 0;
@@ -78,7 +78,7 @@ class Translator {
      * @param {string} lang
      * @returns {Intl.NumberFormat}
      */
-    static getFormater(lang = "en") {
+    static getFormater(lang = "vi") {
         return this.formaters[lang];
     }
 
@@ -105,59 +105,26 @@ class Translator {
         return data;
     }
 
-    static async loadFromJson() {
-        try {
-            var conf = await axios.get(TranslatorConf.cdn_translator_url + 'config.json', { timeout: 2000 });
-            conf = conf.data;
-        } catch (e) {
-            console.log("ERROR WHEN READING CONFIG FILE:\n");
-            console.log(e.message + "\n");
-
-            console.log("Unable to read Config File...\nLoading saved translations...");
-            if (!fs.existsSync(__dirname + "/locale/")) {
-                fs.mkdirSync(__dirname + "/locale");
-            }
-            let localeList = await fs.readdirSync(__dirname + "/locale/");
-            var conf = { published_langs: [] };
-            for (let item of localeList) {
-                conf.published_langs.push(item.split(".")[0]);
-            }
+    static async loadFromJson() {        
+        console.log("Loading local translations");
+        if (!fs.existsSync(__dirname + "/locale/")) {
+            fs.mkdirSync(__dirname + "/locale");
         }
+        let localeList = await fs.readdirSync(__dirname + "/locale/");
+        var conf = { published_langs: [] };
+        for (let item of localeList) {
+            conf.published_langs.push(item.split(".")[0]);
+        }        
 
         for (let lang of conf.published_langs) {
+            console.log("Loading from local files...");
             try {
-                let res = await axios.get(TranslatorConf.cdn_translator_url + lang + '.json', { timeout: 2000 });
-                if (res.status == 200) {
-                    this.translations[lang] = res.data;
-                    this.nbOfTranslations++;
-                    try {
-                        fs.writeFileSync(__dirname + "/locale/" + lang + ".json", JSON.stringify(res.data));
-                    } catch (e) {
-                        console.log(e);
-                        console.log("WARNING: Unable to save a backup for the translation file : " + lang + ".json");
-                    }
-                } else {
-                    console.log("Unable to read from CDN the translation file : " + lang + ".json");
-                    console.log("Loading from Backup files...");
-                    try {
-                        this.translations[lang] = JSON.parse(fs.readFileSync(__dirname + "/locale/" + lang + ".json"));
-                        this.nbOfTranslations++;
-                        console.log("Backup Successfully Loaded !");
-                    } catch (e) {
-                        console.log("ERROR: Unable to read from backup file for the translation file : " + lang + ".json");
-                    }
-                }
+                this.translations[lang] = JSON.parse(fs.readFileSync(__dirname + "/locale/" + lang + ".json"));
+                this.nbOfTranslations++;
+                console.log("Local file Successfully Loaded !");
             } catch (e) {
-                console.log("CDN Unavailable for : " + lang + ".json");
-                console.log("Loading from Backup files...");
-                try {
-                    this.translations[lang] = JSON.parse(fs.readFileSync(__dirname + "/locale/" + lang + ".json"));
-                    this.nbOfTranslations++;
-                    console.log("Backup Successfully Loaded !");
-                } catch (e) {
-                    console.log("ERROR: Unable to read from backup file for the translation file : " + lang + ".json");
-                }
-            }
+                console.log("ERROR: Unable to read from local file for the translation file : " + lang + ".json");
+            }                         
         }
     }
 

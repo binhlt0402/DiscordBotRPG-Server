@@ -166,7 +166,7 @@ class AdminModule extends GModule {
                 let diffLevel = Globals.connectedUsers[res.locals.id].character.getLevel() - actualLevel;
                 if (diffLevel > 0) {
                     let plur = diffLevel > 1 ? "x" : "";
-                    str += "<:levelup:403456740139728906> Bravo ! Vous avez gagné : " + diffLevel + " niveau" + plur + ". Vous êtes desormais niveau : " + Globals.connectedUsers[res.locals.id].character.getLevel() + " !\n";
+                    str += Emojis.getString("levelup") + " Bravo ! Vous avez gagné : " + diffLevel + " niveau" + plur + ". Vous êtes desormais niveau : " + Globals.connectedUsers[res.locals.id].character.getLevel() + " !\n";
                 }
                 data.success = str;
             } else {
@@ -200,7 +200,7 @@ class AdminModule extends GModule {
 
                 data.success = "Tenez c'est le bon dieu qui vous l'offre ! \n" + value + " Argent tombent du ciel rien que pour vous !\n";
                 await Globals.connectedUsers[res.locals.id].character.addMoney(value);
-                data.success += "<:treasure:403457812535181313> Vous avez désormais : " + (await Globals.connectedUsers[res.locals.id].character.getMoney()) + " Argent !";
+                data.success += Emojis.get("treasure") + " Vous avez désormais : " + (await Globals.connectedUsers[res.locals.id].character.getMoney()) + " Argent !";
             }
 
             data.lang = res.locals.lang;

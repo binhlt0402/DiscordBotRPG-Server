@@ -517,10 +517,11 @@
   },
   "languages": {
     "fr": "French",
-    "en": "English",
-    "pt-BR": "Brazilian Portuguese",
-    "ru": "Vietnam",
+    "en": "Tiếng Anh",
+    "pt-BR": "Bồ Đào Nha (Brazin)",
+    "ru": "Tiếng Nga",
     "es": "Spanish",
+    "vi": "Tiếng Việt",
     "list_of_languages": "Danh sách ngôn ngữ hiện có (use the shortcut to switch languages)",
     "lang_changed": "Ngôn ngữ thay đổi thành công, bây giờ bot sẽ trả lời bằng ngôn ngữ %s"
   },

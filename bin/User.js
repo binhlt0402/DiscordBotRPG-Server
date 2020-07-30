@@ -19,7 +19,7 @@ class User {
         this.lastCommandTime = Date.now();
 
         this.preferences = {
-            lang: "en",
+            lang: "vi",
             groupmute: false,
             marketplacemute: false,
             fightmute: false,

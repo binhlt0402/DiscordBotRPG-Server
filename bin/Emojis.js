@@ -25,10 +25,14 @@ class Emojis {
 Emojis.emojisProd = {
     "vmark" : {id : "314349398811475968", string: "<:check:314349398811475968>"},
     "xmark" : {id : "314349398824058880", string: "<:xmark:314349398824058880>"},
+    "treasure": {id : "403457812535181313", string: "<:treasure:403457812535181313>"},
+    "levelup": {id : "403456740139728906", string: "<:levelup:403456740139728906>"},
 };
 Emojis.emojisDev = {
     "vmark" : {id : "403148210295537664", string: ":vmark:"},
     "xmark" : {id : "403149357387350016", string: ":xmark:"},
+    "treasure": {id : "403457812535181313", string: "<:treasure:403457812535181313>"},
+    "levelup": {id : "403456740139728906", string: "<:levelup:403456740139728906>"},
 };
 
 Emojis.general = {

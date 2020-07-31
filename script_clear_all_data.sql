@@ -1,0 +1,16 @@
+DELETE FROM discord_bot_rpg.charactersstatistics;
+DELETE FROM discord_bot_rpg.charactersinventory;
+DELETE FROM discord_bot_rpg.charactershonor;
+DELETE FROM discord_bot_rpg.charactersequipements;
+DELETE FROM discord_bot_rpg.characterscraftlevel;
+DELETE FROM discord_bot_rpg.charactersattacks;
+DELETE FROM discord_bot_rpg.charactersachievements
+DELETE FROM discord_bot_rpg.levels;
+DELETE FROM discord_bot_rpg.statscharacters
+DELETE FROM discord_bot_rpg.userspreferences;
+DELETE FROM discord_bot_rpg.users;
+DELETE FROM discord_bot_rpg.guildsmembers;
+DELETE FROM discord_bot_rpg.conquesttournamentinscriptions;
+DELETE FROM discord_bot_rpg.conquesttournamentrounds;
+DELETE FROM discord_bot_rpg.guilds;
+DELETE FROM discord_bot_rpg.`characters`;

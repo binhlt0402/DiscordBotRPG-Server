@@ -11,6 +11,7 @@ const LootSystem = require("./bin/LootSystem");
 const DBL = require("dblapi.js");
 const WorldBossSpawner = require("./bin/WorldBosses/WorldBossSpawner");
 const axios = require("axios").default;
+const Character = require("./bin/Character");
 const options = {
     webhookPort: 5000,
     webhookAuth: conf.webhookkey
@@ -90,6 +91,7 @@ let startUp = async () => {
 
     // Load api after all 
     const mHandler = new ModuleHandler();
+    let c = new Character(1);
 };
 
 startUp();

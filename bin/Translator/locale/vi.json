@@ -481,7 +481,8 @@
     "group_pm_gain": "Bạn nhận được: %d EXP và %d G",
     "group_pm_gain_other": "Bạn giành được vật phẩm: %s",
     "group_pm_lost_fight": "Nhóm của bạn đã thua trận chiến",
-    "group_pm_won_fight": "Nhóm của bạn đã chiến thắng trận chiến"
+    "group_pm_won_fight": "Nhóm của bạn đã chiến thắng trận chiến",
+    "fight_wait": "Bạn phải chờ %d giây để tiếp tục"
   },
   "fight_pvp": {
     "onfight_user_attack": "%s tấn công %s được **%d** sát thương",

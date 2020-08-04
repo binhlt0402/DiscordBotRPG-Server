@@ -18,7 +18,6 @@ const Emojis = require("../../Emojis");
 const express = require("express");
 const Area = require("../../Areas/Area");
 
-
 class TravelModule extends GModule {
     constructor() {
         super();
@@ -43,7 +42,7 @@ class TravelModule extends GModule {
 
     loadRoutes() {
         this.router.get("/area", async (req, res, next) => {
-            let data = {}
+            let data = {}            
             data.area = await res.locals.currentArea.toApi(res.locals.lang);
             data.lang = res.locals.lang;
             await next();

@@ -241,6 +241,7 @@ class Item {
             image: this.image,
             usable: this.isUsable(),
             desc: "",
+            idType: this.type,
             /**
              * @type {StatsItems}
              */

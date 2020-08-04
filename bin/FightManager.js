@@ -138,6 +138,8 @@ class FightManager {
             }, conf.env == "dev" ? 2000 : (fight.summary.rounds.length) * 4000);
 
             toApi.summary = this.fights[userid].summary;
+            timeToFight = this.timeToFight(characters);
+            toApi.summary.message = Translator.getString(lang, "fight_pve", "fight_wait", [Math.ceil(timeToFight / 1000)]);;            
             if (!canIFightTheMonster) {
                 toApi.beingAttacked = true;
             }

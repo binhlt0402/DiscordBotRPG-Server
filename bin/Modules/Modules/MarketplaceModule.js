@@ -58,6 +58,7 @@ class MarketplaceModule extends GModule {
         this.router.post("/place", async (req, res, next) => {
             let data = {};
             data.lang = res.locals.lang;
+            
             let toPlaceIdItem = parseInt(req.body.idItem, 10);
             let nbOfItemsToPlace = parseInt(req.body.number, 10);
             let priceToPlace = parseInt(req.body.price, 10);
@@ -89,12 +90,13 @@ class MarketplaceModule extends GModule {
 
                                                 data.success = Translator.getString(res.locals.lang, "marketplace", (nbOfItemsToPlace > 1 ? "placed_plur" : "placed"), [arrayToGetOrderObject[0].item.name, arrayToGetOrderObject[0].item.number, arrayToGetOrderObject[0].idItem]) + "\n";
                                                 data.success += Translator.getString(res.locals.lang, "marketplace", "you_paid_tax", [marketplaceTax]);
+                                                console.log(data.success);
                                             } else {
                                                 data.error = Translator.getString(res.locals.lang, "errors", "marketplace_not_enough_to_pay_tax");
                                             }
                                         } else {
-                                            await Globals.connectedUsers[res.locals.id].character.sellToMarketplace(res.locals.marketplace, toPlaceIdItem, nbOfItemsToPlace, priceToPlace);
-                                            data.success = Translator.getString(res.locals.lang, "marketplace", (nbOfItemsToPlace > 1 ? "placed_plur" : "placed"));
+                                            let order = await Globals.connectedUsers[res.locals.id].character.sellToMarketplace(res.locals.marketplace, toPlaceIdItem, nbOfItemsToPlace, priceToPlace);
+                                            data.success = Translator.getString(res.locals.lang, "marketplace", (nbOfItemsToPlace > 1 ? "placed_plur" : "placed"),[order.item.name, order.item.number, order.idItem]);                                            
                                         }
                                     } else {
                                         data.error = Translator.getString(res.locals.lang, "errors", "marketplace_favorite_sell_impossible");

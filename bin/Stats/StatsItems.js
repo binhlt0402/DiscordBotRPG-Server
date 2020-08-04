@@ -5,9 +5,19 @@ const Globals = require("../Globals.js");
 const Translator = require("../Translator/Translator");
 
 class StatsItems extends Stats {
-
+    
     constructor(id) {
         super(id, id);
+        this.strength = 0;
+        this.intellect = 0;
+        this.constitution = 0;
+        this.armor = 0;
+        this.dexterity = 0;
+        this.wisdom = 0;
+        this.will = 0;
+        this.perception = 0;
+        this.charisma = 0;
+        this.luck = 0;
     }
 
     // Load from DB

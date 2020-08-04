@@ -5,6 +5,9 @@ const Item = require("./Items/Item.js");
 const Consumable = require("./Items/Consumable");
 const Translator = require("./Translator/Translator");
 const Stats = require("./Stats/Stats");
+const CharacterEquipement = require("./CharacterEquipement.js");
+const StatsItems = require("./Stats/StatsItems.js");
+const { json } = require("express");
 
 class CharacterInventory {
     // Discord User Info
@@ -175,12 +178,25 @@ class CharacterInventory {
             more = searchParamsResult.sqlQuery;
         }
 
-        let res = await conn.query("SELECT * FROM (SELECT *, @rn:=@rn+1 as idEmplacement FROM (select @rn:=0) row_nums, (SELECT items.idItem, itemssoustypes.idSousType, charactersinventory.number, items.level, itemsbase.idRarity, itemsbase.idType, itemspower.power, localizationitems.nameItem FROM charactersinventory INNER JOIN items ON items.idItem = charactersinventory.idItem INNER JOIN itemsbase ON itemsbase.idBaseItem = items.idBaseItem INNER JOIN itemssoustypes ON itemssoustypes.idSousType = itemsbase.idSousType INNER JOIN itemstypes ON itemstypes.idType = itemsbase.idType INNER JOIN itemspower ON itemspower.idItem = charactersinventory.idItem INNER JOIN localizationitems ON localizationitems.idBaseItem = items.idBaseItem WHERE idCharacter = ? AND lang = ? ORDER BY items.favorite DESC, items.idItem ASC, itemsbase.idRarity) character_inventory) inventory_filtered " + more + " LIMIT ? OFFSET ?;", sqlParams);
+        let res = await conn.query(`SELECT * FROM (
+            SELECT *, @rn:=@rn+1 as idEmplacement 
+                FROM (select @rn:=0) row_nums, 
+                        (SELECT items.idItem, itemssoustypes.idSousType, charactersinventory.number, items.level, itemsbase.idRarity, itemsbase.idType, itemspower.power, 
+                                localizationitems.nameItem, 
+                                (SELECT distinct concat('{ ', GROUP_CONCAT( concat('"',nom, '"', ': ', value) separator ', '), ' }') FROM itemsstats INNER JOIN stats ON itemsstats.idStat = stats.idStat WHERE idItem = items.idItem limit 1) stats,
+                                items.favorite
+                            FROM charactersinventory INNER JOIN items ON items.idItem = charactersinventory.idItem INNER JOIN itemsbase ON itemsbase.idBaseItem = items.idBaseItem 
+                                INNER JOIN itemssoustypes ON itemssoustypes.idSousType = itemsbase.idSousType INNER JOIN itemstypes ON itemstypes.idType = itemsbase.idType 
+                                INNER JOIN itemspower ON itemspower.idItem = charactersinventory.idItem INNER JOIN localizationitems ON localizationitems.idBaseItem = items.idBaseItem						
+                            WHERE idCharacter = ? AND lang = ? ORDER BY items.favorite DESC, items.idItem ASC, itemsbase.idRarity) 
+                character_inventory 
+            ) inventory_filtered ` + more + " LIMIT ? OFFSET ?;", sqlParams);
 
         for (let i in res) {
             let item = await Item.newItem(res[i].idItem, res[i].nomSousType);
             item.number = res[i].number;
-            items[res[i].idEmplacement] = item;
+            item.stats = JSON.parse(res[i].stats);
+            items[res[i].idEmplacement] = item;            
         }
 
         return {
@@ -220,11 +236,38 @@ class CharacterInventory {
      * @param {*} page 
      * @param {*} lang 
      * @param {{rarity: Number,type: Number,level: Number, power: Number}} params
+     * @param {StatsItems[]} equipments 
      */
-    async toApi(page, lang, params) {
-        let res = await this.getAllItemsAtThisPage(page, params, lang);
+    async toApi(page, lang, params, equipments) {
+        let res = await this.getAllItemsAtThisPage(page, params, lang);        
+        
         for (let item in res.items) {
+            let st = res.items[item].stats;
             res.items[item] = await res.items[item].toApiLight(lang);
+            res.items[item].stats = st;
+            var e = equipments[res.items[item].idType];                        
+            if(e==null)
+            {
+                e = {};
+                res.items[item].statsChange = st;
+            }
+            else{
+                e = e.stats;
+                let t = new StatsItems();
+                t.strength = st.strength - e.strength;
+                t.intellect = st.intellect - e.intellect;
+                t.constitution = st.constitution - e.constitution;
+                t.armor = st.armor - e.armor;
+                t.dexterity = st.dexterity - e.dexterity;
+                t.wisdom = st.wisdom - e.wisdom;
+                t.will = st.will - e.will;
+                t.perception = st.perception - e.perception;
+                t.charisma = st.charisma - e.charisma;
+                t.luck = st.luck - e.luck;
+                res.items[item].statsChange = t;
+            }
+            // console.log("eq: " + JSON.stringify(e));
+            // console.log("change: " + JSON.stringify(res.items[item].statsChange));
         }
         return res;
     }

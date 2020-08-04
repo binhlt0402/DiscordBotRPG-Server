@@ -92,7 +92,7 @@ class GModule {
     }
 
     reactHandler() {
-        this.router.use((req, res, next) => {
+        this.router.use((req, res, next) => {            
             if (this.isActive == true || this.devMode == true) {
                 if (Globals.lockedMembers[res.locals.id] == true && !Globals.connectedUsers[res.locals.id].canBeUnstuck()) {
                     return res.json({
@@ -536,14 +536,16 @@ class GModule {
     }
 
     getSearchParams(req) {
-        return {
+        let temp = {
             rarity: parseInt(req.body.idRarity != null ? req.body.idRarity : req.query.idRarity),
             type: parseInt(req.body.idType != null ? req.body.idType : req.query.idType),
             subtype: parseInt(req.body.idSousType != null ? req.body.idSousType : req.query.idSousType),
             level: parseInt(req.body.level != null ? req.body.level : req.query.level),
             power: parseInt(req.body.power != null ? req.body.power : req.query.power),
             name: req.body.name != null ? req.body.name : req.query.name,
+            fav: req.query.fav
         }
+        return temp;
     }
 
 

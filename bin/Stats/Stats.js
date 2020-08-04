@@ -30,6 +30,7 @@ class Stats {
     toApi() {
         let r = {};
         let statsPossible = Object.keys(Globals.statsIds);
+        //console.log(JSON.stringify(statsPossible))
         for (let i in statsPossible) {
             r[statsPossible[i]] = this[statsPossible[i]];
         }

@@ -54,7 +54,7 @@ class Area {
         this.bonusresetCooldown = 0;
     }
 
-    async loadArea() {
+    async loadArea() {        
         let res = await conn.query("SELECT idRegion, AreaImage, NomAreaType, minLevel, maxLevel FROM areas INNER JOIN areastypes ON areastypes.idAreaType = areas.idAreaType INNER JOIN areasregions ON areasregions.idArea = areas.idArea INNER JOIN areasmonsterslevels ON areasmonsterslevels.idArea = areas.idArea WHERE areas.idArea = ?", [this.id]);
         res = res[0];
         this.idRegion = res["idRegion"];

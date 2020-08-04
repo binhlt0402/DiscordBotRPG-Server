@@ -481,7 +481,8 @@
     "group_pm_gain": "You won: %d XP and %d G",
     "group_pm_gain_other": "You have also won items: %s",
     "group_pm_lost_fight": "Your group lost the fight",
-    "group_pm_won_fight": "Your group won the fight"
+    "group_pm_won_fight": "Your group won the fight",
+    "fight_wait": "You have to wait %d seconds"
   },
   "fight_pvp": {
     "onfight_user_attack": "%s attacks %s and inflicts **%d** damage points",

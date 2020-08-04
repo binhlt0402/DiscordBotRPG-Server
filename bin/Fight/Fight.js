@@ -47,7 +47,8 @@ class Fight {
             xpGained: {},
             goldGained: {},
             usersIds: [],
-            winner: 0
+            winner: 0,
+            message: ""
         };
 
         this.loadUsersIds();

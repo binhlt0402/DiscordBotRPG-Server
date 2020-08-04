@@ -1,21 +1,21 @@
 const conn = require("../conf/mysql.js");
 
 let rarityChances = {
-    commun: 45 / 100,
-    rare: 7 / 100,
-    superieur: 6 / 100,
-    epique: 0.9 / 100,
-    legendaire: 0.1 / 100,
-    mythic: 0.01 / 100
+    commun: 40 / 100,
+    rare: 7.5 / 100,
+    superieur: 6.5 / 100,
+    epique: 0.95 / 100,
+    legendaire: 0.15 / 100,
+    mythic: 0.015 / 100
 }
 
 let collectChances = {
     commun: 50 / 100,
-    rare: 14 / 100,
-    superieur: 9 / 100,
-    epique: 1.2 / 100,
-    legendaire: 0.2 / 100,
-    mythic: 0.02 / 100
+    rare: 15 / 100,
+    superieur: 11 / 100,
+    epique: 1.5 / 100,
+    legendaire: 0.3 / 100,
+    mythic: 0.03 / 100
 }
 
 /**
@@ -49,11 +49,11 @@ var Globals = {
     },
     {
         name: "Adult",
-        value: 1.1,
+        value: 1.2,
     },
     {
         name: "Alpha",
-        value: 1.3,
+        value: 1.4,
     }
     ],
     "equipsPossible": null,
@@ -64,9 +64,9 @@ var Globals = {
     "resetStatsPricePerLevel": 150,
     "maxConsecutiveStuns": 1,
     "guilds": {
-        "maxLevel": 10,
+        "maxLevel": 2,
         "basePriceLevel": 50000,
-        "multBasePricePerLevel": 3,
+        "multBasePricePerLevel": 5,
         "baseMembers": 3,
         "membersPerLevels": 3,
         "maxApplies": 3,
@@ -201,11 +201,12 @@ var Globals = {
                 "rarity": { name: "idRarity", sign: "=", isString: false },
                 "type": { name: "idType", sign: "=", isString: false },
                 "level": { name: "level", sign: ">=", isString: false },
+                "level<": { name: "level", sign: "<=", isString: false },
                 "power": { name: "power", sign: ">=", isString: false },
                 "name": { name: "nameItem", sign: "LIKE", isString: true },
                 "subtype": { name: "idSousType", sign: "=", isString: false },
+                "fav": { name: "favorite", sign: "=", isString: false },
             };
-
             for (let param of Object.keys(params)) {
                 if (params[param] != null && equivalent[param] != null && (params[param] > 0 || equivalent[param].isString)) {
                     if (more.length > 0) {

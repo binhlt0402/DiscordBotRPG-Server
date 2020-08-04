@@ -59,14 +59,17 @@ class InventoryModule extends GModule {
                 doIHaveThisItem = await Globals.connectedUsers[res.locals.id].character.getInv().doIHaveThisItem(idItemToSee);
                 if (doIHaveThisItem) {
                     itemToSee = await Globals.connectedUsers[res.locals.id].character.getInv().getItem(idItemToSee);
+                    //console.log(JSON.stringify(itemToSee));
                     let equippedStats = await Globals.connectedUsers[res.locals.id].character.getEquipement().getItem(this.getEquipableIDType(itemToSee.typeName));
                     if (equippedStats != null)
                         equippedStats = equippedStats.stats;
                     else
-                        equippedStats = {};
+                        equippedStats = {};                    
                     data.item = await itemToSee.toApi(res.locals.lang);;
                     data.equippedStats = equippedStats;
                     data.idInInventory = idItemToSee;
+                    //console.log(JSON.stringify(equippedStats));
+                    //console.log(JSON.stringify(data.item))
                 } else {
                     data.error = Translator.getString(res.locals.lang, "errors", "item_you_dont_have_this_item");
                 }
@@ -103,15 +106,19 @@ class InventoryModule extends GModule {
         });
 
         this.router.get("/show/:page?", async (req, res, next) => {
-            let data = {};
+            let data = {};            
             let params = this.getSearchParams(req);
 
             let invPage = parseInt(req.params.page, 10);
             if (invPage == null || invPage != null && !Number.isInteger(invPage)) {
                 invPage = 0;
             }
-
-            data = await Globals.connectedUsers[res.locals.id].character.inv.toApi(invPage, res.locals.lang, params);
+            let equipments = {};
+            for (let i = 1; i <= 10; i++) { // ten equipments
+                equipments[i] = await Globals.connectedUsers[res.locals.id].character.getEquipement().getItem(i);
+            }
+            console.log("REQ: " + JSON.stringify(req.params));
+            data = await Globals.connectedUsers[res.locals.id].character.inv.toApi(invPage, res.locals.lang, params, equipments);
 
             data.lang = res.locals.lang;
             await next();

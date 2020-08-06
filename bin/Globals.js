@@ -195,13 +195,12 @@ var Globals = {
     getSearchParams: (params, withWhere = true, withAndBefore = false) => {
         let values = [];
         let more = "";
-
         if (params != null) {
             let equivalent = {
                 "rarity": { name: "idRarity", sign: "=", isString: false },
                 "type": { name: "idType", sign: "=", isString: false },
                 "level": { name: "level", sign: ">=", isString: false },
-                "level<": { name: "level", sign: "<=", isString: false },
+                "level_down": { name: "level", sign: "<=", isString: false },
                 "power": { name: "power", sign: ">=", isString: false },
                 "name": { name: "nameItem", sign: "LIKE", isString: true },
                 "subtype": { name: "idSousType", sign: "=", isString: false },
@@ -231,6 +230,7 @@ var Globals = {
                     more = "AND " + more;
                 }
             }
+            console.log("more: " + more);
         }
 
         return { sqlQuery: more, values: values };

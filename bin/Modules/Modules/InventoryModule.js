@@ -117,7 +117,6 @@ class InventoryModule extends GModule {
             for (let i = 1; i <= 10; i++) { // ten equipments
                 equipments[i] = await Globals.connectedUsers[res.locals.id].character.getEquipement().getItem(i);
             }
-            console.log("REQ: " + JSON.stringify(req.params));
             data = await Globals.connectedUsers[res.locals.id].character.inv.toApi(invPage, res.locals.lang, params, equipments);
 
             data.lang = res.locals.lang;
@@ -199,7 +198,7 @@ class InventoryModule extends GModule {
 
         this.router.post("/sellall/value", async (req, res, next) => {
             let data = await this.commonSellChecks(req, res);
-            if (!data.error) {
+            if (!data.error) {                
                 let sellData = await Globals.connectedUsers[res.locals.id].character.getInv().getAllInventoryValue(data.params, data.lang);
                 data.value = sellData.value;
                 data.isFiltered = sellData.isFiltered;

@@ -535,7 +535,7 @@ class GModule {
         return data;
     }
 
-    getSearchParams(req) {
+    getSearchParams(req) {        
         let temp = {
             rarity: parseInt(req.body.idRarity != null ? req.body.idRarity : req.query.idRarity),
             type: parseInt(req.body.idType != null ? req.body.idType : req.query.idType),
@@ -543,7 +543,8 @@ class GModule {
             level: parseInt(req.body.level != null ? req.body.level : req.query.level),
             power: parseInt(req.body.power != null ? req.body.power : req.query.power),
             name: req.body.name != null ? req.body.name : req.query.name,
-            fav: req.query.fav
+            fav: req.query.fav,
+            level_down: parseInt(req.body['level%3C'] != null ? req.body['level%3C'] : req.query['level%3C']),
         }
         return temp;
     }

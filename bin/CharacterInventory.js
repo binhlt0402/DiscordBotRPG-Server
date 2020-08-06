@@ -142,13 +142,11 @@ class CharacterInventory {
     async getAllInventoryValue(params, lang="en") {
         let more = "";
         let sqlParams = [this.id, lang];
-
         let searchParamsResult = Globals.getSearchParams(params, false, true);
         if (searchParamsResult.values.length > 0) {
             sqlParams = sqlParams.slice(0, 2).concat(searchParamsResult.values.concat(sqlParams.slice(2)))
             more = searchParamsResult.sqlQuery;
         }
-
         let value = await conn.query("SELECT COALESCE(SUM((items.level * (1+itemsbase.idRarity) * charactersinventory.number)), 0) as value FROM charactersinventory INNER JOIN items ON items.idItem = charactersinventory.idItem INNER JOIN itemsbase ON itemsbase.idBaseItem = items.idBaseItem INNER JOIN itemspower ON itemspower.idItem = charactersinventory.idItem INNER JOIN localizationitems ON localizationitems.idBaseItem = items.idBaseItem WHERE idCharacter = ? AND items.favorite = 0 AND lang = ? " + more + ";", sqlParams);
 
         value = value[0]["value"];
